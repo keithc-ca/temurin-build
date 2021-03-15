@@ -22,7 +22,6 @@ export ANT_HOME=/cygdrive/C/Projects/OpenJDK/apache-ant-1.10.1
 export DRAGONWELL8_BOOTSTRAP=/cygdrive/C/openjdk/dragonwell-bootstrap/jdk8u272-ga
 export ALLOW_DOWNLOADS=true
 export LANG=C
-export OPENJ9_NASM_VERSION=2.13.03
 export OPENSSL_VERSION=1.1.1j
 
 TOOLCHAIN_VERSION=""
@@ -110,8 +109,7 @@ then
       export PATH="/usr/bin:$PATH"
     fi
     # LLVM needs to be before cygwin as at least one machine has 64-bit clang in cygwin #813
-    # NASM required for OpenSSL support as per #604
-    export PATH="/cygdrive/c/Program Files (x86)/LLVM/bin:/cygdrive/c/openjdk/nasm-$OPENJ9_NASM_VERSION:$PATH"
+    export PATH="/cygdrive/c/Program Files (x86)/LLVM/bin:$PATH"
   else
     if [ "${JAVA_TO_BUILD}" == "${JDK8_VERSION}" ]
     then
@@ -185,7 +183,7 @@ then
 
     # LLVM needs to be before cygwin as at least one machine has clang in cygwin #813
     # NASM required for OpenSSL support as per #604
-    export PATH="/cygdrive/c/Program Files/LLVM/bin:/usr/bin:/cygdrive/c/openjdk/nasm-$OPENJ9_NASM_VERSION:$PATH"
+    export PATH="/cygdrive/c/Program Files/LLVM/bin:/usr/bin:$PATH"
   else
     TOOLCHAIN_VERSION="2013"
     if [ "${JAVA_TO_BUILD}" == "${JDK8_VERSION}" ]
@@ -223,7 +221,6 @@ fi
 if [ "${ARCHITECTURE}" == "aarch64" ]; then
   export CONFIGURE_ARGS_FOR_ANY_PLATFORM="${CONFIGURE_ARGS_FOR_ANY_PLATFORM} --disable-ccache --openjdk-target=aarch64-unknown-cygwin --with-build-jdk=$JDK_BOOT_DIR"
 fi
-
 
 if [ ! -z "${TOOLCHAIN_VERSION}" ]; then
     export CONFIGURE_ARGS_FOR_ANY_PLATFORM="${CONFIGURE_ARGS_FOR_ANY_PLATFORM} --with-toolchain-version=${TOOLCHAIN_VERSION}"
